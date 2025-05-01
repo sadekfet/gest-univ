@@ -10,21 +10,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-$connect = new PDO("mysql:host=localhost;dbname=pfe", "root", "");
-$connect->exec("set names utf8");
-// استقبال المعطيات من الطلب
-$iddep = $_GET['iddep'];
-$idspc = $_GET['idspc'];
-$idcycle = $_GET['idcycle'];
-$niveau = $_GET['niveau'];
-$groupe = $_GET['groupe'];
+// معلومات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';
+$port = '56259';
+$db = 'railway';
+$user = 'postgres';
+$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';
 
-$query = "SELECT day, `08:30-10:00`, `10:00-11:30`, `11:30-13:00`, `13:30-15:00`, `15:00-16:30`
-          FROM tabemploi
-          WHERE iddep = ? AND idspc = ? AND idcycle = ? AND niveau = ? AND groupe = ?";
+try {
+    // الاتصال بقاعدة البيانات PostgreSQL
+    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
+    $connect->exec("set names utf8");
 
-$stmt = $connect->prepare($query);
-$stmt->execute([$iddep, $idspc, $idcycle, $niveau, $groupe]);
+    // استقبال المعطيات من الطلب
+    $iddep = $_GET['iddep'];
+    $idspc = $_GET['idspc'];
+    $idcycle = $_GET['idcycle'];
+    $niveau = $_GET['niveau'];
+    $groupe = $_GET['groupe'];
 
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    $query = "
+        SELECT day, 
+               \"08:30-10:00\", 
+               \"10:00-11:30\", 
+               \"11:30-13:00\", 
+               \"13:30-15:00\", 
+               \"15:00-16:30\"
+        FROM tabemploi
+        WHERE iddep = ? AND idspc = ? AND idcycle = ? AND niveau = ? AND groupe = ?
+    ";
+
+    // تحضير الاستعلام وتنفيذه
+    $stmt = $connect->prepare($query);
+    $stmt->execute([$iddep, $idspc, $idcycle, $niveau, $groupe]);
+
+    // إرسال النتيجة بصيغة JSON
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+} catch (PDOException $e) {
+    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
+}
 ?>

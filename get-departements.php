@@ -8,10 +8,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit;
 }
-$connect = new PDO("mysql:host=localhost;dbname=pfe", "root", "");
-$connect->exec("set names utf8");
-$query = "SELECT iddep, nomdep FROM departement";
-$stmt = $connect->prepare($query);
-$stmt->execute();
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+// الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';
+$port = '56259';
+$dbname = 'railway';
+$user = 'postgres';
+$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';
+
+try {
+    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $pass);
+    $connect->exec("set names utf8");
+    
+    $query = "SELECT iddep, nomdep FROM departement";
+    $stmt = $connect->prepare($query);
+    $stmt->execute();
+
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+} catch (PDOException $e) {
+    echo json_encode(['error' => $e->getMessage()]);
+}
 ?>

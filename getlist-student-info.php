@@ -9,15 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// معلومات الاتصال بقاعدة البيانات
-$host = 'localhost';
-$db = 'pfe';
-$user = 'root';
-$pass = '';
+// معلومات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';
+$port = '56259';
+$db = 'railway';
+$user = 'postgres';
+$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';
 
 try {
-    // الاتصال بقاعدة البيانات
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+    // الاتصال بقاعدة البيانات PostgreSQL
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // تنفيذ الاستعلام لجلب جميع الطلبة مع تفاصيلهم
