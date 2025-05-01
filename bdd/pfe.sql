@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 29 avr. 2025 à 12:45
+-- Généré le :  jeu. 01 mai 2025 à 21:27
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -187,50 +187,52 @@ CREATE TABLE IF NOT EXISTS `tabemploi` (
   `iddep` varchar(2) NOT NULL,
   `idspc` varchar(2) NOT NULL,
   `idcycle` varchar(2) NOT NULL,
+  `niveau` varchar(1) CHARACTER SET utf8mb4 NOT NULL,
   `groupe` varchar(2) NOT NULL,
   `day` varchar(20) NOT NULL,
-  `08:30-10:00` varchar(50) NOT NULL,
-  `10:00-11:30` varchar(50) NOT NULL,
-  `11:30-13:00` varchar(50) NOT NULL,
-  `13:30-15:00` varchar(50) NOT NULL,
-  `15:00-16:30` varchar(100) NOT NULL
+  `08:30-10:00` varchar(50) DEFAULT NULL,
+  `10:00-11:30` varchar(50) DEFAULT NULL,
+  `11:30-13:00` varchar(50) DEFAULT NULL,
+  `13:30-15:00` varchar(50) DEFAULT NULL,
+  `15:00-16:30` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`iddep`,`idspc`,`idcycle`,`niveau`,`groupe`,`day`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `tabemploi`
 --
 
-INSERT INTO `tabemploi` (`iddep`, `idspc`, `idcycle`, `groupe`, `day`, `08:30-10:00`, `10:00-11:30`, `11:30-13:00`, `13:30-15:00`, `15:00-16:30`) VALUES
-('08', '02', '02', '1', 'Sunday', 'SI TD (SAL25)', 'SI COUR (SAL14)', '', 'BDD COUR (SAL12)', ''),
-('08', '02', '02', '1', 'Monday', 'BDD TP (SAL12)', '', '', '', ''),
-('08', '02', '02', '1', 'Tuesday', 'alg cours sal25', '', 'BDD ', '', ''),
-('08', '02', '02', '1', 'wednesday', '', '', '', '', ''),
-('08', '02', '02', '1', 'Thursday', '', '', '', '', ''),
-('08', '02', '01', '1', 'Sunday', 'SE cour(salle23)', 'SE TD (salle05)', '', '', ''),
-('08', '02', '01', '1', 'Monday', 'Res cour (Amphi2)', '', 'Res TD(salle23)', 'Poo cour (Emphi2)', ''),
-('08', '02', '01', '1', 'Tuesday', 'SE TP (info2)', 'BDD TD (salle07)', 'THL TP(info5)', 'THL Cour (Amphi)', ''),
-('08', '02', '01', '1', 'wednesday', 'TP BDD (info 2)', 'TP Daw (info)', 'Res TP(info 3)', 'Daw cour (Amphi2)', ''),
-('08', '02', '01', '1', 'Thursday', '', 'BDD cour (Amphi 2)', '', '', ''),
-('08', '02', '01', '2', 'Sunday', 'SE cour(salle23)', 'POO TP (info2)', 'SE TD (salle23)', 'THL TP (info3)', ''),
-('08', '02', '01', '2', 'Monday', 'Res cour (Amphi2)', 'TD Res (salle 23)', 'TP Daw (info 2)', 'Poo cour (Emphi2)', ''),
-('08', '02', '01', '2', 'Tuesday', 'TD BDD (salle 7)', 'TP SE (info 1)', 'THL TD(salle 8)', 'THL Cour (Amphi)', ''),
-('08', '02', '01', '2', 'wednesday', '', 'TP BDD (info 2)', 'TP Res (info 3)', 'Daw cour (Amphi2)', ''),
-('08', '02', '01', '2', 'Thursday', '', 'BDD cour (Amphi 2)', '', '', ''),
-('01', '17', '01', '1', 'Sunday', '', 'Chimie des surfaces cour ', 'Chimie des surfaces TD', 'Méthodes Physique d\'Analyses (Labo 3)', ''),
-('01', '17', '01', '1', 'Monday', 'Cours Electrochimie', 'Cours Chimie quantique 2', 'Cours Cristallographie', 'TD Cristallographie', ''),
-('01', '17', '01', '1', 'Tuesday', 'Cours Cristallographie', 'Cours Ethique Déontologie', 'Cours Chimie des surfaces', 'TP Electrochimie', ''),
-('01', '17', '01', '1', 'wednesday', 'Cours Electrochimie', 'TD Electrochimie', 'Cours Chimie quantique 2', 'TD Chimie quantique 2', ''),
-('01', '17', '01', '1', 'Thursday', '', '', 'cours  Anglais scientifique 2 a distance', '', ''),
-('07', '05', '01', '3', 'Sunday', 'literature TD(salle3)', 'ESP TD(salle3)', 'written expression  Cour (Amphi D4)', 'Didactics Cour (Amphi D4)', ''),
-('07', '05', '01', '3', 'Monday', 'Literature Cour(Amphi D4)', '', 'Oral expression TD(salle3)', 'Methodology TD(salle3)', ''),
-('07', '05', '01', '3', 'Tuesday', '', 'Methodology Cour(Amphi D4)', 'written expression TD(salle3)', 'French cour(Amphi D4)', ''),
-('07', '05', '01', '3', 'wednesday', 'civilization TD(salle3)', 'translation TD(salle3)', 'linguistics TD(salle3)', 'linguistics cour(Amphi D4)', ''),
-('07', '05', '01', '3', 'Thursday', 'civilization cour(Amphi D4(', 'ICT TD (salle11)', '', '', ''),
-('06', '26', '01', '1', 'Sunday', 'Cours Bio-statistiques(salle A10)', 'TP Techniques d\'analyse (Labo 12)', 'Microbiologie de l\'environnement (salle A25)', 'Microbiologie de l\'environnement (salle A25)', ''),
-('06', '26', '01', '1', 'Monday', '', 'Techniques d\'analyse (salle A25)', 'TP (Mic-Ind)(Labo9)', 'TP (Mic-Ind)(Labo9)', ''),
-('06', '26', '01', '1', 'Tuesday', 'Cours Bio-statistique(Amphi 2)', 'TD Qualité et sécurité alimentaire (salle A10)', 'cours Microbiologie industrielle ( salle A25)', 'cours Microbiologie industrielle ( salle A25)', ''),
-('06', '26', '01', '1', 'wednesday', 'Cours Qualité et sécurité alimentaire (salle A25)', 'TD Techniques d\'analyse (salle A25)', 'Cours Microbiologie alimentaire (salle A25)', 'Cours Microbiologie alimentaire (salle A25)', ''),
-('06', '26', '01', '1', 'Thursday', '', '', '', '', '');
+INSERT INTO `tabemploi` (`iddep`, `idspc`, `idcycle`, `niveau`, `groupe`, `day`, `08:30-10:00`, `10:00-11:30`, `11:30-13:00`, `13:30-15:00`, `15:00-16:30`) VALUES
+('08', '02', '02', '2', '1', 'Sunday', 'SI TD (SAL25)', 'SI COUR (SAL14)', '', 'BDD COUR (SAL12)', ''),
+('08', '02', '02', '2', '1', 'Monday', 'BDD TP (SAL12)', '', '', '', ''),
+('08', '02', '02', '2', '1', 'Tuesday', 'alg cours sal25', '', 'BDD', '', ''),
+('08', '02', '02', '2', '1', 'wednesday', '', '', '', '', ''),
+('08', '02', '02', '2', '1', 'Thursday', '', '', '', '', ''),
+('08', '02', '01', '1', '1', 'Sunday', 'SE cour(salle23)', 'SE TD (salle05)', '', '', ''),
+('08', '02', '01', '1', '1', 'Monday', 'Res cour (Amphi2)', '', 'Res TD(salle23)', 'Poo cour (Emphi2)', ''),
+('08', '02', '01', '1', '1', 'Tuesday', 'SE TP (info2)', 'BDD TD (salle07)', 'THL TP(info5)', 'THL Cour (Amphi)', ''),
+('08', '02', '01', '1', '1', 'wednesday', 'TP BDD (info 2)', 'TP Daw (info)', 'Res TP(info 3)', 'Daw cour (Amphi2)', ''),
+('08', '02', '01', '1', '1', 'Thursday', '', 'BDD cour (Amphi 2)', '', '', ''),
+('08', '02', '01', '1', '2', 'Sunday', 'SE cour(salle23)', 'POO TP (info2)', 'SE TD (salle23)', 'THL TP (info3)', ''),
+('08', '02', '01', '1', '2', 'Monday', 'Res cour (Amphi2)', 'TD Res (salle 23)', 'TP Daw (info 2)', 'Poo cour (Emphi2)', ''),
+('08', '02', '01', '1', '2', 'Tuesday', 'TD BDD (salle 7)', 'TP SE (info 1)', 'THL TD(salle 8)', 'THL Cour (Amphi)', ''),
+('08', '02', '01', '1', '2', 'wednesday', '', 'TP BDD (info 2)', 'TP Res (info 3)', 'Daw cour (Amphi2)', ''),
+('08', '02', '01', '1', '2', 'Thursday', '', 'BDD cour (Amphi 2)', '', '', ''),
+('01', '17', '01', '2', '1', 'Sunday', '', 'Chimie des surfaces cour', 'Chimie des surfaces TD', 'Méthodes Physique d\'Analyses (Labo 3)', ''),
+('01', '17', '01', '2', '1', 'Monday', 'Cours Electrochimie', 'Cours Chimie quantique 2', 'Cours Cristallographie', 'TD Cristallographie', ''),
+('01', '17', '01', '2', '1', 'Tuesday', 'Cours Cristallographie', 'Cours Ethique Déontologie', 'Cours Chimie des surfaces', 'TP Electrochimie', ''),
+('01', '17', '01', '2', '1', 'wednesday', 'Cours Electrochimie', 'TD Electrochimie', 'Cours Chimie quantique 2', 'TD Chimie quantique 2', ''),
+('01', '17', '01', '2', '1', 'Thursday', '', '', 'cours  Anglais scientifique 2 a distance', '', ''),
+('07', '05', '01', '2', '3', 'Sunday', 'literature TD(salle3)', 'ESP TD(salle3)', 'written expression  Cour (Amphi D4)', 'Didactics Cour (Amphi D4)', ''),
+('07', '05', '01', '2', '3', 'Monday', 'Literature Cour(Amphi D4)', '', 'Oral expression TD(salle3)', 'Methodology TD(salle3)', ''),
+('07', '05', '01', '2', '3', 'Tuesday', '', 'Methodology Cour(Amphi D4)', 'written expression TD(salle3)', 'French cour(Amphi D4)', ''),
+('07', '05', '01', '2', '3', 'wednesday', 'civilization TD(salle3)', 'translation TD(salle3)', 'linguistics TD(salle3)', 'linguistics cour(Amphi D4)', ''),
+('07', '05', '01', '2', '3', 'Thursday', 'civilization cour(Amphi D4(', 'ICT TD (salle11)', '', '', ''),
+('06', '26', '01', '3', '1', 'Sunday', 'Cours Bio-statistiques(salle A10)', 'TP Techniques d\'analyse (Labo 12)', 'Microbiologie de l\'environnement (salle A25)', 'Microbiologie de l\'environnement (salle A25)', ''),
+('06', '26', '01', '3', '1', 'Monday', '', 'Techniques d\'analyse (salle A25)', 'TP (Mic-Ind)(Labo9)', 'TP (Mic-Ind)(Labo9)', ''),
+('06', '26', '01', '3', '1', 'Tuesday', 'Cours Bio-statistique(Amphi 2)', 'TD Qualité et sécurité alimentaire (salle A10)', 'cours Microbiologie industrielle ( salle A25)', 'cours Microbiologie industrielle ( salle A25)', ''),
+('06', '26', '01', '3', '1', 'wednesday', 'Cours Qualité et sécurité alimentaire (salle A25)', 'TD Techniques d\'analyse (salle A25)', 'Cours Microbiologie alimentaire (salle A25)', 'Cours Microbiologie alimentaire (salle A25)', ''),
+('06', '26', '01', '3', '1', 'Thursday', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
