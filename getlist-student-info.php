@@ -9,16 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// معلومات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';
-$port = '56259';
-$db = 'railway';
-$user = 'postgres';
-$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';
+// إعدادات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
+$port = '56259';  // استبدل بـ بياناتك الخاصة
+$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
+$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
+$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
 
 try {
-    // الاتصال بقاعدة البيانات PostgreSQL
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
+    // الاتصال بقاعدة بيانات PostgreSQL
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // تنفيذ الاستعلام لجلب جميع الطلبة مع تفاصيلهم
@@ -51,6 +51,6 @@ try {
         echo json_encode(["error" => "لا توجد بيانات للطلبة"]);
     }
 } catch (PDOException $e) {
-    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
+    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
 }
 ?>

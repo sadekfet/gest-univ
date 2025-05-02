@@ -10,27 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// معلومات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل هذا بالقيم الخاصة بك
-$port = '56259';  // استبدل هذا بالقيم الخاصة بك
-$db = 'railway';  // استبدل هذا بالقيم الخاصة بك
-$user = 'postgres';  // استبدل هذا بالقيم الخاصة بك
-$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل هذا بالقيم الخاصة بك
+// إعدادات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
+$port = '56259';  // استبدل بـ بياناتك الخاصة
+$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
+$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
+$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
 
 try {
     // الاتصال بقاعدة بيانات PostgreSQL
-    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
-    $connect->exec("set names utf8");
-
-    // الاستعلام لجلب بيانات التخصصات
-    $query = "SELECT idspc, nomspc FROM specialite";
-    $stmt = $connect->prepare($query);
-    $stmt->execute();
-
-    // إرجاع النتيجة بتنسيق JSON
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-
+    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
+    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
 }
+$connect->exec("set names utf8");
+$query = "SELECT idspc, nomspc FROM specialite";
+$stmt = $connect->prepare($query);
+$stmt->execute();
+echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 ?>

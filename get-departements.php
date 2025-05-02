@@ -9,23 +9,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';
-$port = '56259';
-$dbname = 'railway';
-$user = 'postgres';
-$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';
+// إعدادات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
+$port = '56259';  // استبدل بـ بياناتك الخاصة
+$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
+$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
+$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
 
 try {
-    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $pass);
-    $connect->exec("set names utf8");
-    
-    $query = "SELECT iddep, nomdep FROM departement";
-    $stmt = $connect->prepare($query);
-    $stmt->execute();
-
-    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    // الاتصال بقاعدة بيانات PostgreSQL
+    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo json_encode(['error' => $e->getMessage()]);
+    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
 }
+
+$connect->exec("set names utf8");
+$query = "SELECT iddep, nomdep FROM departement";
+$stmt = $connect->prepare($query);
+$stmt->execute();
+echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 ?>

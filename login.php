@@ -9,17 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// إعدادات الاتصال بقاعدة البيانات
-$host = 'localhost';
-$dbname = 'pfe';
-$username = 'root';
-$password = '';
-
+// إعدادات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
+$port = '56259';  // استبدل بـ بياناتك الخاصة
+$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
+$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
+$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    // الاتصال بقاعدة بيانات PostgreSQL
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed']));
+    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
 }
 
 // استقبال البيانات القادمة من React

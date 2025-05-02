@@ -9,17 +9,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// معلومات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';
-$port = '56259';
-$db = 'railway';
-$user = 'postgres';
-$pass = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';
+// إعدادات الاتصال بقاعدة بيانات PostgreSQL
+$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
+$port = '56259';  // استبدل بـ بياناتك الخاصة
+$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
+$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
+$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
 
 try {
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
+    // الاتصال بقاعدة البيانات
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // جلب رقم الطالب من الرابط
     $studentId = $_GET['id'] ?? '';
 
     if (!$studentId) {
@@ -27,14 +29,15 @@ try {
         exit;
     }
 
+    // تحضير الاستعلام
     $stmt = $pdo->prepare("
         SELECT 
             t.day, 
-            t.\"08:30-10:00\", 
-            t.\"10:00-11:30\",
-            t.\"11:30-13:00\",
-            t.\"13:30-15:00\",
-            t.\"15:00-16:30\",
+            t.t1, 
+            t.t2,
+            t.t3,
+            t.t4,
+            t.t5,
             e.groupe,
             e.niveau,
             d.nomdep,
@@ -53,8 +56,10 @@ try {
         WHERE e.idetudiant = ?
     ");
 
+    // تنفيذ الاستعلام مع رقم الطالب الصحيح
     $stmt->execute([$studentId]);
 
+    // جلب النتائج
     $emplois = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($emplois) {
@@ -64,6 +69,7 @@ try {
     }
 
 } catch (PDOException $e) {
-    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
+    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
 }
 ?>
+
