@@ -87,9 +87,7 @@ export default function EtudiantPage() {
     navigate("/");
   };
 
-  const handleBypassScan = () => {
-    navigate("/student-dashboard", { state: { studentId: "23047076101" } });
-  };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -114,14 +112,7 @@ export default function EtudiantPage() {
             </button>
           )}
 
-          {(isScanning || error) && (
-            <button
-              onClick={handleBypassScan}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded w-full"
-            >
-              المرور دون مسح
-            </button>
-          )}
+
 
           {error && (
             <button
