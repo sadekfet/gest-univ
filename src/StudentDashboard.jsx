@@ -355,11 +355,11 @@ export default function StudentDashboard() {
     {emploiData.map((item, index) => (
       <tr key={index}>
         <td className="py-4 px-4 border-l-2 border-gray-400">{item.day}</td>
-        <td className="py-4 px-4 border-l-2 border-gray-400">{item["08:30-10:00"]}</td>
-        <td className="py-4 px-4 border-l-2 border-gray-400">{item["10:00-11:30"]}</td>
-        <td className="py-4 px-4 border-l-2 border-gray-400">{item["11:30-13:00"]}</td>
-        <td className="py-4 px-4 border-l-2 border-gray-400">{item["13:30-15:00"]}</td>
-        <td className="py-4 px-4">{item["15:00-16:30"]}</td> {/* آخر خلية بدون حدود */}
+        <td className="py-4 px-4 border-l-2 border-gray-400">{item.t1}</td>
+        <td className="py-4 px-4 border-l-2 border-gray-400">{item.t2}</td>
+        <td className="py-4 px-4 border-l-2 border-gray-400">{item.t3}</td>
+        <td className="py-4 px-4 border-l-2 border-gray-400">{item.t4}</td>
+        <td className="py-4 px-4">{item.t5}</td> {/* آخر خلية بدون حدود */}
       </tr>
     ))}
   </tbody>
