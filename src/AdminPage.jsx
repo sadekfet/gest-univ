@@ -10,7 +10,7 @@ export default function AdminPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost/universityapp/login.php', {
+      const response = await fetch('http://gestiondesetudiants.great-site.net/login.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

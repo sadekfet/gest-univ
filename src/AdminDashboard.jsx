@@ -39,7 +39,7 @@ export default function AdminDashboard() {
   const handleManageStudents = () => {
     setShowStudentTable(!showStudentTable); // التبديل بين الإظهار والإخفاء
     if (!showStudentTable && students.length === 0) {
-      fetch('http://localhost/universityapp/getlist-student-info.php')
+      fetch("http://gestiondesetudiants.great-site.net/getlist-student-info.php")
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {

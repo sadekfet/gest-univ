@@ -13,18 +13,18 @@ export default function ScheduleManagement() {
   const [emploi, setEmploi] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost/universityapp/get-departements.php')
+    fetch('http://gestiondesetudiants.great-site.net/get-departements.php')
       .then(res => res.json())
       .then(data => setDepartements(data));
 
-    fetch('http://localhost/universityapp/get-specialites.php')
+    fetch('http://gestiondesetudiants.great-site.net/get-specialites.php')
       .then(res => res.json())
       .then(data => setSpecialites(data));
   }, []);
 
   useEffect(() => {
     if (iddep && idspc && idcycle && niveau && groupe) {
-      const url = `http://localhost/universityapp/get-listemploi.php?iddep=${iddep}&idspc=${idspc}&idcycle=${idcycle}&niveau=${niveau}&groupe=${groupe}`;
+      const url = `http://gestiondesetudiants.great-site.net/get-listemploi.php?iddep=${iddep}&idspc=${idspc}&idcycle=${idcycle}&niveau=${niveau}&groupe=${groupe}`;
       console.log("Fetching emploi from:", url); // فقط لأغراض التحقق
       fetch(url)
         .then(res => res.json())
@@ -116,11 +116,11 @@ export default function ScheduleManagement() {
               {emploi.map((row, index) => (
                 <tr key={index}>
                   <td className="border p-2">{row.day}</td>
-                  <td className="border p-2">{row.t1}</td>
-                  <td className="border p-2">{row.t2}</td>
-                  <td className="border p-2">{row.t3}</td>
-                  <td className="border p-2">{row.t4}</td>
-                  <td className="border p-2">{row.t5}</td>
+                  <td className="border p-2">{row["08:30-10:00"]}</td>
+                  <td className="border p-2">{row["10:00-11:30"]}</td>
+                  <td className="border p-2">{row["11:30-13:00"]}</td>
+                  <td className="border p-2">{row["13:30-15:00"]}</td>
+                  <td className="border p-2">{row["15:00-16:30"]}</td>
                 </tr>
               ))}
             </tbody>
