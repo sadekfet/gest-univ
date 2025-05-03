@@ -54,7 +54,7 @@ export default function StudentDashboard() {
 
   const fetchTimetable = () => {
     axios
-      .get(`http://gestiondesetudiants.great-site.net/get-emploi.php?id=${studentId}`)
+      .get(`https://gestiondesetudiants.great-site.net/get-emploi.php?id=${studentId}`)
       .then((response) => {
         if (response.data && response.data.length > 0) {
           setEmploiData(response.data); // تخزين البيانات في الحالة
