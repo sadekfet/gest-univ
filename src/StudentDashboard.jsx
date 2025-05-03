@@ -98,7 +98,7 @@ export default function StudentDashboard() {
   useEffect(() => {
     if (studentId) {
       axios
-        .get(`http://gestiondesetudiants.great-site.net/get-student-info.php?id=${studentId}`)
+        .get(`https://gestiondesetudiants.great-site.net/get-student-info.php?id=${studentId}`)
         .then((response) => {
           if (response.data.nom && response.data.prenom && response.data.lnais && response.data.dnais && response.data.nomdep && response.data.nomspc && response.data.nomcycle && response.data.niveau && response.data.groupe) {
             setStudentInfo({

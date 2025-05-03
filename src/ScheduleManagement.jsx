@@ -13,18 +13,18 @@ export default function ScheduleManagement() {
   const [emploi, setEmploi] = useState([]);
 
   useEffect(() => {
-    fetch('http://gestiondesetudiants.great-site.net/get-departements.php')
+    fetch('https://gestiondesetudiants.great-site.net/get-departements.php')
       .then(res => res.json())
       .then(data => setDepartements(data));
 
-    fetch('http://gestiondesetudiants.great-site.net/get-specialites.php')
+    fetch('https://gestiondesetudiants.great-site.net/get-specialites.php')
       .then(res => res.json())
       .then(data => setSpecialites(data));
   }, []);
 
   useEffect(() => {
     if (iddep && idspc && idcycle && niveau && groupe) {
-      const url = `http://gestiondesetudiants.great-site.net/get-listemploi.php?iddep=${iddep}&idspc=${idspc}&idcycle=${idcycle}&niveau=${niveau}&groupe=${groupe}`;
+      const url = `https://gestiondesetudiants.great-site.net/get-listemploi.php?iddep=${iddep}&idspc=${idspc}&idcycle=${idcycle}&niveau=${niveau}&groupe=${groupe}`;
       console.log("Fetching emploi from:", url); // فقط لأغراض التحقق
       fetch(url)
         .then(res => res.json())
