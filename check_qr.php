@@ -4,41 +4,51 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
+
+// التعامل مع طلبات OPTIONS لتفادي مشاكل CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// إعدادات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
-$port = '56259';  // استبدل بـ بياناتك الخاصة
-$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
-$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
-$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
+// بيانات الاتصال بقاعدة البيانات على InfinityFree
+$host = 'sql312.infinityfree.com';        // MySQL host
+$user = 'if0_38878069';                  // اسم المستخدم
+$pass = 'ZrxaWeCHqvt6sLI';               // كلمة المرور
+$db = 'if0_38878069_pfe';                // اسم قاعدة البيانات
 
-try {
-    // الاتصال بقاعدة بيانات PostgreSQL
-    $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
+// الاتصال بقاعدة البيانات
+$conn = new mysqli($host, $user, $pass, $db);
+
+// التحقق من الاتصال
+if ($conn->connect_error) {
+    die(json_encode(['success' => false, 'error' => 'فشل في الاتصال بقاعدة البيانات: ' . $conn->connect_error]));
 }
 
+// قراءة البيانات المرسلة في الطلب
 $data = json_decode(file_get_contents('php://input'), true);
-$qrCode = $data['code'];
- 
+$qrCode = $data['code'] ?? null;
 
+if (!$qrCode) {
+    echo json_encode(['success' => false, 'error' => 'رمز QR غير موجود']);
+    exit();
+}
+
+// الاستعلام عن الطالب باستخدام الـ QR Code
 $stmt = $conn->prepare("SELECT * FROM etudiant WHERE idetudiant = ?");
 $stmt->bind_param("s", $qrCode);
 $stmt->execute();
 $result = $stmt->get_result();
 
+// التحقق من وجود الطالب
 if ($result->num_rows > 0) {
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false]);
 }
 
+// إغلاق الاتصال
 $stmt->close();
 $conn->close();
+
 ?>

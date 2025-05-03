@@ -9,35 +9,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit;
 }
-// إعدادات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
-$port = '56259';  // استبدل بـ بياناتك الخاصة
-$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
-$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
-$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
+
+// معلومات الاتصال بقاعدة البيانات على InfinityFree
+$host = 'sql312.infinityfree.com';        // MySQL Host
+$dbname = 'if0_38878069_pfe';            // اسم قاعدة البيانات
+$username = 'if0_38878069';              // اسم المستخدم
+$password = 'ZrxaWeCHqvt6sLI';           // كلمة المرور
 
 try {
-    // الاتصال بقاعدة بيانات PostgreSQL
-    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
-    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // الاتصال بقاعدة البيانات
+    $connect = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $connect->exec("set names utf8");
+
+    // استقبال المعطيات من الطلب
+    $iddep = $_GET['iddep'];
+    $idspc = $_GET['idspc'];
+    $idcycle = $_GET['idcycle'];
+    $niveau = $_GET['niveau'];
+    $groupe = $_GET['groupe'];
+
+    // الاستعلام لجلب البيانات
+    $query = "SELECT day, `08:30-10:00`, `10:00-11:30`, `11:30-13:00`, `13:30-15:00`, `15:00-16:30`
+              FROM tabemploi
+              WHERE iddep = ? AND idspc = ? AND idcycle = ? AND niveau = ? AND groupe = ?";
+
+    $stmt = $connect->prepare($query);
+    $stmt->execute([$iddep, $idspc, $idcycle, $niveau, $groupe]);
+
+    // إرجاع النتيجة بتنسيق JSON
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
 } catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
+    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
 }
-
-$connect->exec("set names utf8");
-// استقبال المعطيات من الطلب
-$iddep = $_GET['iddep'];
-$idspc = $_GET['idspc'];
-$idcycle = $_GET['idcycle'];
-$niveau = $_GET['niveau'];
-$groupe = $_GET['groupe'];
-
-$query = "SELECT day, t1, t2, t3, t4, t5
-          FROM tabemploi
-          WHERE iddep = ? AND idspc = ? AND idcycle = ? AND niveau = ? AND groupe = ?";
-
-$stmt = $connect->prepare($query);
-$stmt->execute([$iddep, $idspc, $idcycle, $niveau, $groupe]);
-
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 ?>

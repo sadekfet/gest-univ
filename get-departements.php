@@ -9,24 +9,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// إعدادات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
-$port = '56259';  // استبدل بـ بياناتك الخاصة
-$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
-$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
-$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
+// بيانات الاتصال بقاعدة البيانات على InfinityFree
+$host = 'sql312.infinityfree.com';        // MySQL Host
+$dbname = 'if0_38878069_pfe';            // اسم قاعدة البيانات
+$username = 'if0_38878069';              // اسم المستخدم
+$password = 'ZrxaWeCHqvt6sLI';           // كلمة المرور
 
 try {
-    // الاتصال بقاعدة بيانات PostgreSQL
-    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
-    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $connect = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $connect->exec("set names utf8");
 } catch (PDOException $e) {
     die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
 }
 
-$connect->exec("set names utf8");
 $query = "SELECT iddep, nomdep FROM departement";
 $stmt = $connect->prepare($query);
 $stmt->execute();
+
+// إرسال النتيجة بتنسيق JSON
 echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 ?>

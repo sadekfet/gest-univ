@@ -9,17 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-
-// إعدادات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
-$port = '56259';  // استبدل بـ بياناتك الخاصة
-$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
-$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
-$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
+// معلومات الاتصال بقاعدة البيانات على InfinityFree
+$host = 'sql312.infinityfree.com';        // المضيف لقاعدة البيانات
+$db = 'if0_38878069_pfe';                // اسم قاعدة البيانات
+$user = 'if0_38878069';                  // اسم المستخدم
+$pass = 'ZrxaWeCHqvt6sLI';               // كلمة المرور
 
 try {
-    // الاتصال بقاعدة بيانات PostgreSQL
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    // الاتصال بقاعدة البيانات
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // جلب رقم الطالب من الرابط
@@ -59,6 +57,6 @@ try {
         echo json_encode(["error" => "الطالب غير موجود"]);
     }
 } catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
+    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
 }
 ?>

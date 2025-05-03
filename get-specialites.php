@@ -10,23 +10,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-// إعدادات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
-$port = '56259';  // استبدل بـ بياناتك الخاصة
-$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
-$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
-$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
+// معلومات الاتصال بقاعدة البيانات على InfinityFree
+$host = 'sql312.infinityfree.com';        // المضيف لقاعدة البيانات
+$db = 'if0_38878069_pfe';                // اسم قاعدة البيانات
+$user = 'if0_38878069';                  // اسم المستخدم
+$pass = 'ZrxaWeCHqvt6sLI';               // كلمة المرور
 
 try {
-    // الاتصال بقاعدة بيانات PostgreSQL
-    $connect = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
-    $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // الاتصال بقاعدة البيانات
+    $connect = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    $connect->exec("set names utf8");
+
+    // تنفيذ الاستعلام
+    $query = "SELECT idspc, nomspc FROM specialite";
+    $stmt = $connect->prepare($query);
+    $stmt->execute();
+
+    // إرجاع النتائج في صيغة JSON
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
 } catch (PDOException $e) {
-    die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
+    echo json_encode(["error" => "خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage()]);
 }
-$connect->exec("set names utf8");
-$query = "SELECT idspc, nomspc FROM specialite";
-$stmt = $connect->prepare($query);
-$stmt->execute();
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 ?>

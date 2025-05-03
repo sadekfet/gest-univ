@@ -1,23 +1,22 @@
 <?php
 header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");  
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");  
-header("Access-Control-Allow-Headers: Content-Type");  
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-// إعدادات الاتصال بقاعدة بيانات PostgreSQL
-$host = 'switchyard.proxy.rlwy.net';  // استبدل بـ بياناتك الخاصة
-$port = '56259';  // استبدل بـ بياناتك الخاصة
-$dbname = 'railway';  // استبدل بـ اسم قاعدة بياناتك
-$username = 'postgres';  // استبدل بـ اسم المستخدم الخاص بك
-$password = 'vKOhEOvtszntLHaqpCIWTGKdojWMCZeU';  // استبدل بـ كلمة المرور الخاصة بك
+// إعدادات الاتصال بقاعدة البيانات
+$host = 'sql312.infinityfree.com';         // MySQL Host
+$dbname = 'if0_38878069_pfe';             // اسم قاعدة البيانات
+$username = 'if0_38878069';               // اسم المستخدم
+$password = 'ZrxaWeCHqvt6sLI';            // كلمة المرور
+
 try {
-    // الاتصال بقاعدة بيانات PostgreSQL
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die(json_encode(['success' => false, 'message' => 'فشل الاتصال بقاعدة البيانات: ' . $e->getMessage()]));
