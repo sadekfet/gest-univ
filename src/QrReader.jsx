@@ -45,7 +45,7 @@ export default function EtudiantPage() {
           }
         })
         .catch(() => {
-          setError("⚠️ حدث خطأ أثناء الاتصال بالخادم.");
+          setError("⚠️ حدث خطأ أثن2اء الاتصال بالخادم.");
         });
     };
 
