@@ -38,9 +38,9 @@ function HomePage() {
     <div className="min-h-screen flex items-start justify-center bg-gray-100 pt-20">
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center w-full max-w-xl animate-fade-in">
         <div className="space-y-0">
-          <h1 className="text-lg font-semibold">الجمهورية الجزائرية الديمقراطية الشعبية</h1>
+          <h1 className="text-lg font-semibold">الجمهورية ------ الديمقراطية الشعبية</h1>
           <h1 className="text-lg font-semibold">وزارة التعليم العالي والبحث العلمي</h1>
-          <h1 className="text-lg font-semibold">جامعة غليزان</h1>
+          <h1 className="text-lg font-semibold">جامعة -----منصة تجريبية</h1>
         </div>
 
         <div className="mt-8 space-y-4">
