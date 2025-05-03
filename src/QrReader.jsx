@@ -31,7 +31,7 @@ export default function EtudiantPage() {
       setIsScanning(false);
       stopScannerSafely();
       // التحقق من الكود
-      fetch('http://gestiondesetudiants.great-site.net/check_qr.php', {
+      fetch("https://gestiondesetudiants.great-site.net/check_qr.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: decodedText }),
